@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Productivity Tree</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins';
+            box-sizing: border-box;
+            background-color: #f0f0f0;
+        }
+
+        /* Header section */
+        header {
+            background-color: #FF8C00; /* Light orange */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            width: 50px;  /* Adjust the width of the logo as needed */
+            height: auto;
+            border-radius: 50%;
+        }
+
+        .center-title {
+            font-size: 30px;
+            font-weight: bold;
+            color: red;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .feature-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .feature-box {
+            background-color: #FFFFFF;
+            color: #00008B;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            min-width: 40px;
+        }
+
+        .feature-box:hover {
+            background-color: #FF4500;
+            color: #FFFFFF;
+        }
+
+        .settings-icon {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .settings-icon img {
+            width: 20px;
+            border-radius: 50%; /* Circular icon */
+        }
+
+        /* Main section with background image */
+        .main-section {
+            background-image: url('Tree.jpeg'); /* Add a real URL for your tree image */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 500px; /* Adjust height as needed */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+
+        .main-section h1 {
+            font-size: 36px;
+            font-weight: bold;
+            font-family: 'Georgia';
+            color: white;
+        }
+
+        .quote {
+            font-size: 25px;
+            font-weight: bold;
+            margin: 20px 0;
+            font-family: 'Georgia';
+            color: white;
+        }
+
+        .start-button {
+            background-color: white;
+            color: #00008B;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .start-button:hover {
+            background-color: #00008B;
+            color: white;
+        }
+
+        /* Disabled button style */
+        .disabled-button {
+            background-color: grey;
+            color: white;
+            cursor: not-allowed;
+        }
+
+        /* Gift Box Animation */
+        .gift-box {
+            display: none;
+            position: absolute;
+            background-color: #FF4500;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            transform: scale(0);
+            animation: giftBoxAnimation 0.5s forwards;
+            font-family:'poppins';
+        }
+
+        @keyframes giftBoxAnimation {
+            0% {
+                transform: scale(0);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <img src="logo2.jpeg" class="logo" />
+        <div class="center-title">PERSONAL PRODUCTIVITY TREE</div>
+        <div class="feature-container">
+            <div class="feature-box">
+                <a href="login1.html" class="feature-link">Login</a>
+            </div>   
+            <div class="feature-box">
+                <a href="signup1.html" class="feature-link">Sign Up</a> 
+            </div> 
+            <div class="feature-box" id="taskArea">
+                <a href="task.html" class="feature-link">Task area</a>
+            </div> 
+            <div class="feature-box" id="yourTree">
+                <a href="tree1.html" class="feature-link">Your Tree</a>
+            </div>
+            <div class="feature-box settings-icon" id="settings">
+                <a href="sm2o.html" class="feature-link">Settings</a>
+                <img src="settings.jpeg">
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Section -->
+    <div class="main-section">
+        <h1>WELCOME TO YOUR PERSONAL PRODUCTIVITY TREE</h1>
+        <p class="quote">"Grow your tasks, nurture your goals, and watch progress bloom!"</p>
+        <button class="start-button" onclick="window.location.href = 'roadmap.html';">Start</button>
+    </div>
+
+    <script>
+        // Check login/logout status using localStorage
+        window.onload = function () {
+            let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+            // Disable buttons if the user is logged out
+            if (!isLoggedIn) {
+                // Disable buttons and prevent links from being clicked if user is not logged in
+                document.getElementById("taskArea").classList.add("disabled-button");
+                document.getElementById("yourTree").classList.add("disabled-button");
+                document.getElementById("settings").classList.add("disabled-button");
+
+                // Prevent clicks on the disabled links
+                const disabledLinks = document.querySelectorAll('.disabled-button a');
+                disabledLinks.forEach(link => {
+                    link.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        alert("Please log in to access this section.");
+                    });
+                });
+            } else {
+                // Enable buttons if logged in
+                document.getElementById("taskArea").classList.remove("disabled-button");
+                document.getElementById("yourTree").classList.remove("disabled-button");
+                document.getElementById("settings").classList.remove("disabled-button");
+            }
+        };
+
+        // Function to handle logout
+        function logout() {
+            // Set the logged-out status in localStorage
+            localStorage.setItem('isLoggedIn', 'false');
+            // Redirect to login page or homepage after logout
+            window.location.href = 'login1.html';
+        }
+    </script>
+
+</body>
+</html>

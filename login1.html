@@ -1,0 +1,255 @@
+<!-- Login Page -->
+<div class="login-container">
+    <div class="login-box">
+        <h2>LOGIN PAGE</h2>
+        <form id="loginForm">
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required />
+            </div>
+
+            <div class="input-group">
+                <label for="emailOrPhone">Email ID / Phone Number</label>
+                <input type="text" id="emailOrPhone" name="emailOrPhone" placeholder="Enter your email or phone number" required />
+            </div>
+
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required />
+            </div>
+
+            <button type="submit" class="login-btn">Login</button>
+        </form>
+
+        <div class="forgot-password">
+            <p><a href="javascript:void(0);" id="forgotPasswordLink">Forgot Password?</a></p>
+        </div>
+
+        <div id="error-message" class="error-message" style="display: none;">
+            <p>Invalid login credentials.</p>
+        </div>
+
+        <div id="forgotPasswordSection" class="forgot-password-section" style="display: none;">
+            <p>Generate OTP via:</p>
+            <div>
+                <button type="button" onclick="showOtpInput()">Email ID / Phone</button>
+            </div>
+
+            <div id="otpInputSection" class="otp-input-section" style="display: none;">
+                <div class="input-group">
+                    <label for="otpInput">Enter Email ID / Phone Number</label>
+                    <input type="text" id="otpInput" placeholder="Enter email or phone number" required />
+                </div>
+
+                <button type="button" onclick="generateOtp()" class="generate-otp-btn">Generate OTP</button>
+
+                <div id="otpVerificationSection" class="otp-verification-section" style="display: none;">
+                    <div class="input-group">
+                        <label for="otp">Enter OTP</label>
+                        <input type="text" id="otp" placeholder="Enter OTP" required />
+                    </div>
+
+                    <button type="button" onclick="verifyOtp()" class="submit-otp-btn">Submit</button>
+                </div>
+            </div>
+
+            <div id="resetPasswordSection" class="reset-password-section" style="display: none;">
+                <div class="input-group">
+                    <label for="newPassword">Enter New Password</label>
+                    <input type="password" id="newPassword" placeholder="Enter new password" required />
+                </div>
+
+                <div class="input-group">
+                    <label for="confirmNewPassword">Confirm New Password</label>
+                    <input type="password" id="confirmNewPassword" placeholder="Confirm new password" required />
+                </div>
+
+                <button type="button" onclick="resetPassword()" class="reset-password-btn">Reset Password</button>
+            </div>
+        </div>
+
+        <div class="signup-link">
+            <p>Don't have an account? <a href="signup1.html">Sign Up</a></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Simulate a user database using localStorage
+    if (!localStorage.getItem('users')) {
+        const initialUsers = [
+            { username: 'user1', emailOrPhone: 'user1@example.com', password: 'password1' },
+            { username: 'user2', emailOrPhone: 'user2@example.com', password: 'password2' },
+        ];
+        localStorage.setItem('users', JSON.stringify(initialUsers));
+    }
+
+    // Login functionality
+    document.getElementById('loginForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const username = document.getElementById('username').value.trim();
+        const emailOrPhone = document.getElementById('emailOrPhone').value.trim();
+        const password = document.getElementById('password').value.trim();
+
+        // Get users from localStorage
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+
+        // Find user with matching credentials
+        const user = users.find(user => 
+            (user.username === username || user.emailOrPhone === emailOrPhone) && user.password === password
+        );
+
+        if (user) {
+            alert('Login successful!');
+            // Set login status to true in localStorage
+            localStorage.setItem('isLoggedIn', 'true');
+            // Redirect to home page
+            window.location.href = "home.html"; // Add your page here after login
+        } else {
+            // Show error message if login fails
+            document.getElementById('error-message').style.display = 'block';
+        }
+    });
+
+    // Show Forgot Password Section
+    document.getElementById('forgotPasswordLink').addEventListener('click', function () {
+        document.getElementById('forgotPasswordSection').style.display = 'block';
+    });
+
+    // Show OTP Input Section
+    function showOtpInput() {
+        document.getElementById('otpInputSection').style.display = 'block';
+    }
+
+    // Generate OTP
+    function generateOtp() {
+        const otp = Math.floor(100000 + Math.random() * 900000); // Generate a random 6-digit OTP
+        localStorage.setItem('otp', otp);
+        alert(`OTP sent: ${otp}`);
+        document.getElementById('otpVerificationSection').style.display = 'block';
+    }
+
+    // Verify OTP
+    function verifyOtp() {
+        const enteredOtp = document.getElementById('otp').value;
+        const storedOtp = localStorage.getItem('otp');
+
+        if (enteredOtp === storedOtp) {
+            alert('OTP verified!');
+            document.getElementById('resetPasswordSection').style.display = 'block';
+        } else {
+            alert('Invalid OTP. Please try again.');
+        }
+    }
+
+    // Reset Password
+    function resetPassword() {
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+
+        if (newPassword !== confirmNewPassword) {
+            alert('Passwords do not match!');
+            return;
+        }
+
+        const emailOrPhone = document.getElementById('otpInput').value;
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+
+        const userIndex = users.findIndex(user => user.emailOrPhone === emailOrPhone);
+        if (userIndex !== -1) {
+            users[userIndex].password = newPassword;
+            localStorage.setItem('users', JSON.stringify(users));
+            alert('Password reset successful!');
+        } else {
+            alert('User not found!');
+        }
+    }
+</script>
+
+
+<style>
+    /* Page Styling */
+    body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-image: url("TreeHS.jpeg"); /* Replace with your tree image path */
+        background-size: cover;
+        background-position: center;
+        color: white;
+    }
+
+    .login-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    /* Login Box Styling */
+    .login-box {
+        background-color: rgba(255, 255, 255, 0.6);
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+        width: 400px;
+        text-align: center;
+    }
+
+    .login-box h2 {
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: darkblue;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .input-group {
+        margin-bottom: 15px;
+        text-align: left;
+    }
+
+    .input-group label {
+        font-size: 14px;
+        color: darkblue;
+    }
+
+    .input-group input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    .login-btn {
+        width: 100%;
+        padding: 10px;
+        background-color: darkblue;
+        color: white;
+        font-size: 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 20px;
+    }
+
+    .login-btn:hover {
+        background-color: #0056b3;
+    }
+
+    .forgot-password p a {
+        color: darkorange;
+        text-decoration: none;
+    }
+
+    .forgot-password p a:hover {
+        text-decoration: underline;
+    }
+
+    .error-message {
+        color: red;
+        margin-top: 15px;
+    }
+</style>

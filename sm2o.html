@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f9;
+      color: #333;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    h2 {
+      text-align: center;
+      color: darkblue;
+      font-family: 'Poppins';
+    }
+
+    .settings-container {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .settings-options {
+      flex: 1;
+      max-width: 250px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 15px;
+      margin-right: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .settings-options button,
+    .settings-options .logout-button {
+      width: 100%;
+      padding: 10px 15px;
+      font-size: 16px;
+      margin-bottom: 10px;
+      background-color: darkblue;
+      color: white;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      border-radius: 5px;
+    }
+
+    .settings-options button:hover,
+    .settings-options .logout-button:hover {
+      background-color: navy;
+    }
+
+    .settings-options .logout-button {
+      background-color: #f44336;
+      opacity: 0.4;
+    }
+
+    .settings-options .logout-button:hover {
+      background-color: #e41f18;
+    }
+
+    .settings-content {
+      flex: 3;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .settings-section {
+      display: none;
+    }
+
+    .active-section {
+      display: block;
+    }
+
+    label {
+      font-size: 16px;
+      margin-bottom: 5px;
+      display: block;
+      color: #333;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    #profile-photo {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    #profile-photo img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h2>SETTINGS</h2>
+
+  <div class="settings-container">
+    <!-- Settings Options -->
+    <div class="settings-options">
+      <button onclick="toggleSection('profile-settings')">Profile Settings</button>
+      <button onclick="toggleSection('privacy-settings')">Privacy Settings</button>
+      <button onclick="toggleSection('language-settings')">Language Settings</button>
+      <button onclick="toggleSection('theme-settings')">Theme Settings</button>
+      <button class="logout-button" onclick="logout()">Logout</button>
+    </div>
+
+    <!-- Settings Content -->
+    <div id="profile-settings" class="settings-section">
+      <h3>Profile Settings</h3>
+      <div id="profile-photo">
+        <img src="settingsphoto.jpeg" id="profile-photo-img" alt="Profile Photo">
+        <div>
+          <label for="change-photo">Change Profile Photo:</label>
+          <input type="file" id="change-photo" onchange="previewProfilePhoto(event)" required>
+        </div>
+      </div>
+      <div>
+        <label for="full-name">Full Name:</label>
+        <input type="text" id="full-name" placeholder="Enter full name" required>
+      </div>
+      <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" placeholder="Enter email" required>
+      </div>
+      <div>
+        <label for="phone">Phone:</label>
+        <input type="tel" id="phone" placeholder="Enter phone number" required>
+      </div>
+      <button onclick="saveProfileSettings()">Save Profile</button>
+    </div>
+
+    <div id="privacy-settings" class="settings-section">
+      <h3>Privacy Settings</h3>
+      <label for="visibility">Profile Visibility:</label>
+      <select id="visibility" required>
+        <option value="public">Public</option>
+        <option value="private">Private</option>
+      </select>
+      <button onclick="savePrivacySettings()">Save Privacy</button>
+    </div>
+
+    <div id="language-settings" class="settings-section">
+      <h3>Language Settings</h3>
+      <label for="language">Preferred Language:</label>
+      <select id="language" required>
+        <option value="english">English</option>
+        <option value="spanish">Spanish</option>
+      </select>
+      <button onclick="saveLanguageSettings()">Save Language</button>
+    </div>
+
+    <div id="theme-settings" class="settings-section">
+      <h3>Theme Settings</h3>
+      <label for="theme">Choose Theme:</label>
+      <select id="theme" onchange="changeTheme()">
+        <option value="light">Light Theme</option>
+        <option value="dark">Dark Theme</option>
+      </select>
+    </div>
+  </div>
+
+  <script>
+    function toggleSection(sectionId) {
+      const sections = document.querySelectorAll('.settings-section');
+      sections.forEach(section => {
+        section.style.display = section.id === sectionId ? 'block' : 'none';
+      });
+    }
+
+    function previewProfilePhoto(event) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+      reader.onload = function() {
+        const output = document.getElementById('profile-photo-img');
+        output.src = reader.result;
+      };
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function logout() {
+      alert("You have been logged out.");
+    }
+
+    // Save Profile Settings to Local Storage
+    function saveProfileSettings() {
+      const fullName = document.getElementById('full-name').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+      const photo = document.getElementById('profile-photo-img').src;
+
+      if (!fullName || !email || !phone) {
+        alert("Please fill in all required fields.");
+        return;
+      }
+
+      localStorage.setItem('fullName', fullName);
+      localStorage.setItem('email', email);
+      localStorage.setItem('phone', phone);
+      localStorage.setItem('photo', photo);
+
+      alert('Profile settings saved!');
+    }
+
+    function savePrivacySettings() {
+      const visibility = document.getElementById('visibility').value;
+      localStorage.setItem('visibility', visibility);
+      alert('Privacy settings saved!');
+    }
+
+    function saveLanguageSettings() {
+      const language = document.getElementById('language').value;
+      localStorage.setItem('language', language);
+      alert('Language settings saved!');
+    }
+
+    function changeTheme() {
+      const theme = document.getElementById('theme').value;
+      if (theme === 'dark') {
+        document.body.style.backgroundColor = '#333';
+        document.body.style.color = '#f4f4f9';
+      } else {
+        document.body.style.backgroundColor = '#f4f4f9';
+        document.body.style.color = '#333';
+      }
+      localStorage.setItem('theme', theme);
+    }
+
+    // Load data from Local Storage on page load
+    window.onload = function () {
+      const theme = localStorage.getItem('theme') || 'light';
+      document.getElementById('theme').value = theme;
+      changeTheme();
+
+      // Pre-fill profile settings from localStorage if available
+      document.getElementById('full-name').value = localStorage.getItem('fullName') || '';
+      document.getElementById('email').value = localStorage.getItem('email') || '';
+      document.getElementById('phone').value = localStorage.getItem('phone') || '';
+
+      // Pre-fill profile photo from localStorage
+      const photo = localStorage.getItem('photo');
+      if (photo) {
+        document.getElementById('profile-photo-img').src = photo;
+      }
+
+      // Pre-fill privacy settings from localStorage
+      const visibility = localStorage.getItem('visibility') || 'public';
+      document.getElementById('visibility').value = visibility;
+
+      // Pre-fill language settings from localStorage
+      const language = localStorage.getItem('language') || 'english';
+      document.getElementById('language').value = language;
+    };
+  </script>
+</body>
+</html>

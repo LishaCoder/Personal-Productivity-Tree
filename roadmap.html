@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roadmap - Personal Productivity Tree</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Comic Sans MS', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(45deg, #ff7e5f, #feb47b, #6a11cb, #2575fc);
+      animation: gradientAnimation 10s ease infinite;
+      background-size: 400% 400%;
+    }
+    @keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+    .roadmap {
+      text-align: center;
+      width: 90%;
+      max-width: 800px;
+    }
+
+    .roadmap h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .roadmap-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .roadmap-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .roadmap-step p {
+      margin: 0;
+      font-size: 16px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .icon {
+      font-size: 30px;
+      background-color: #dff2d8;
+      border-radius: 50%;
+      padding: 10px;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .roadmap-line {
+      width: 5px;
+      height: 50px;
+      background-color: #72b372;
+    }
+
+    /* Horizontal Line */
+    .roadmap-horizontal {
+      width: 75px;
+      height: 5px;
+      background-color: #72b372;
+      position: absolute;
+      top: 50%;
+      left: 80%;
+    }
+
+    /* Substeps Styles */
+    .substeps {
+      list-style: none;
+      padding: 0;
+      margin-top: 10px;
+      text-align: left;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .substeps li {
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="roadmap">
+    <h2>KNOW YOUR JOURNEY!!!</h2>
+    <div class="roadmap-container">
+      <!-- Step 1 -->
+      <div class="roadmap-step">
+        <div class="icon">🚀</div>
+        <p>Step 1: Start</p>
+      </div>
+
+      <!-- Line -->
+      <div class="roadmap-line"></div>
+
+      <!-- Step 2 -->
+      <div class="roadmap-step">
+        <div class="icon">📝</div>
+        <p>Step 2: Signup</p>
+      </div>
+
+      <!-- Line -->
+      <div class="roadmap-line"></div>
+
+      <!-- Step 3 -->
+      <div class="roadmap-step">
+        <div class="icon">🔑</div>
+        <p>Step 3: Login</p>
+
+        <!-- Horizontal Line to Settings -->
+        <div class="roadmap-horizontal"></div>
+
+        <!-- Settings Circle -->
+        <div class="roadmap-step" style="position: absolute; top: 10%; right: -120px;">
+          <div class="icon">⚙️</div>
+          <p>Settings</p>
+        </div>
+      </div>
+
+      <!-- Line -->
+      <div class="roadmap-line"></div>
+
+      <!-- Step 4 -->
+      <div class="roadmap-step">
+        <div class="icon">📋</div>
+        <p>Step 4: Task Area</p>
+      </div>
+
+      <!-- Line -->
+      <div class="roadmap-line"></div>
+
+      <!-- Step 5 -->
+      <div class="roadmap-step">
+        <div class="icon">✅</div>
+        <p>Step 5: Click Checkbox</p>
+      </div>
+
+      <!-- Line -->
+      <div class="roadmap-line"></div>
+
+      <!-- Step 6 -->
+      <div class="roadmap-step">
+        <div class="icon">🌳</div>
+        <p>Step 6: Your Tree Grows</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
